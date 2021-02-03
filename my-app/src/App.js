@@ -84,7 +84,7 @@ class App extends Component {
     return (
       <div className="App">
         <Header></Header>
-        <div className="row dropdown">
+        <div className="row filter-options">
             <div className="col-md-2">
                 Search By Category
                 <Select
@@ -118,7 +118,7 @@ class App extends Component {
           <h1 className="currently-viewing">{selectedCategory || selectedCountry}</h1>
         </center>
 
-        <div className="row mrgnbtm">
+        <div >
           <Articles articles={this.state.articles}></Articles>
         </div>
 

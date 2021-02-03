@@ -8,7 +8,7 @@ export const Articles = ({articles}) => {
     const ArticleRow = (article,index) => {
         return(
               <li key = {index}>
-                 <h1>{article.title}</h1>
+                 <h3>{article.title}</h3>
                   <p>
                     {article.contentSnippet}
                   </p>
@@ -20,9 +20,7 @@ export const Articles = ({articles}) => {
     const articleTable = articles.map((article,index) => ArticleRow(article,index))
 
     return(
-        <div className="container">
-            <h2>Articles</h2>
-
+        <div>
             <section className="articles-container" id="articles-container">
               <ul>
                 {articleTable}
