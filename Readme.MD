@@ -1,7 +1,7 @@
 // Start the NodeJS Server
 cd api
 npm install
-npm run dev
+nodemon server
 
 // Start the React App
 cd my-app
