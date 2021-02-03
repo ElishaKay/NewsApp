@@ -31,10 +31,16 @@ const Countries = [
 class App extends Component {
 
   state = {
-    articles:[]
+    articles:[],
+    countries: [],
+    categories: [],
+    selectedCountry: '',
+    selectedCategory: ''
   }
 
   componentDidMount(){
+    this.setState({countries: Countries, categories: Categories})
+
     getAllArticles()
       .then(articles => {
         console.log('articles', articles)
@@ -43,11 +49,11 @@ class App extends Component {
   }
 
   onSelectCategory(opt){
-    console.log(opt)
+    let category = opt.value;
     getCategoryArticles(opt.value)
       .then(articles => {
         console.log('articles', articles)
-        this.setState({articles})
+        this.setState({selectedCategory: category, selectedCountry: '', articles})
       });
   }
 
@@ -56,12 +62,13 @@ class App extends Component {
     getCountryArticles(opt.value)
       .then(articles => {
         console.log('articles', articles)
-        this.setState({articles})
+        this.setState({selectedCountry: opt.value, selectedCategory: '', articles})
       });
   }
 
   render() {
-    
+    let {selectedCategory, selectedCountry} = this.state;
+
     return (
       <div className="App">
         <Header></Header>
@@ -69,16 +76,22 @@ class App extends Component {
             <div className="col-md-2">
                 <Select
                   options={Categories}
+                  value={selectedCategory || ''}
                   onChange={this.onSelectCategory.bind(this)}
                 />  
             </div>
             <div className="col-md-2">
                 <Select
+                  value={selectedCountry || ''}
                   options={Countries}
                   onChange={this.onSelectCountry.bind(this)}
                 />  
             </div>  
         </div>
+
+        <center>
+          <h1 className="currently-viewing">{selectedCategory || selectedCountry}</h1>
+        </center>
 
         <div className="row mrgnbtm">
           <Articles articles={this.state.articles}></Articles>
