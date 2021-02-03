@@ -23,7 +23,7 @@ export const Articles = ({articles}) => {
         <div className="container">
             <h2>Articles</h2>
 
-            <section className="the-images" id="the-images">
+            <section className="articles-container" id="articles-container">
               <ul>
                 {articleTable}
               </ul>
