@@ -32,15 +32,11 @@ class App extends Component {
 
   state = {
     articles:[],
-    countries: [],
-    categories: [],
     selectedCountry: '',
     selectedCategory: ''
   }
 
   componentDidMount(){
-    this.setState({countries: Countries, categories: Categories})
-
     getAllArticles()
       .then(articles => {
         console.log('articles', articles)
