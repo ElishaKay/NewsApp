@@ -7,6 +7,9 @@ import { DisplayBoard } from './components/DisplayBoard'
 import CreateUser from './components/CreateUser'
 import { getAllUsers, createUser } from './services/UserService'
 
+import { getAllArticles } from './services/ArticleService'
+import { Articles } from './components/Articles'
+
 class App extends Component {
 
   state = {
@@ -14,6 +17,14 @@ class App extends Component {
     users: [],
     numberOfUsers: 0,
     articles:[]
+  }
+
+  componentDidMount(){
+    getAllArticles()
+      .then(articles => {
+        console.log('articles', articles)
+        this.setState({articles})
+      });
   }
 
   createUser = (e) => {
@@ -68,6 +79,10 @@ class App extends Component {
             </div>
           </div>
         </div>
+        <div className="row mrgnbtm">
+          <Articles articles={this.state.articles}></Articles>
+        </div>
+
         <div className="row mrgnbtm">
           <Users users={this.state.users}></Users>
         </div>
