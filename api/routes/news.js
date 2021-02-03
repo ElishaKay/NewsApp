@@ -1,12 +1,11 @@
 const express = require('express');
 const router = express.Router();
 
-const { getNews, displayNews } = require('../controllers/news')
+const { getNews, getCategoryNews } = require('../controllers/news')
 
-router.get('/', displayNews)
-router.get('/:filterBy/:filterString', displayNews)
 
 router.get('/articles', getNews);
+router.get('/articles/category/:category', getCategoryNews);
 
 
 // router.post('/tag', create);

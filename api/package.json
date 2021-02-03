@@ -12,7 +12,8 @@
   "dependencies": {
     "express": "^4.17.1",
     "gnews": "^1.0.3",
-    "http-proxy-middleware": "^1.0.4"
+    "http-proxy-middleware": "^1.0.4",
+    "morgan": "^1.10.0"
   },
   "devDependencies": {
     "del": "^5.1.0",
