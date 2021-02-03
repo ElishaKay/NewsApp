@@ -17,3 +17,10 @@ export async function getCountryArticles(country) {
     const response = await fetch(`/api/articles/country/${country}`);
     return await response.json();
 }
+
+export async function getCountryArticlesByIP(ip) {
+	console.log('IP in getCountryArticlesByIP service', ip);
+
+    const response = await fetch(`/api/articles/countrybyip/${ip}`);
+    return await response.json();
+}

@@ -5,7 +5,8 @@ import { Header } from './components/Header'
 
 import { getAllArticles,
           getCategoryArticles,
-            getCountryArticles
+          getCountryArticles,
+          getCountryArticlesByIP
        } from './services/ArticleService'
 
 import { Articles } from './components/Articles'
@@ -33,7 +34,8 @@ class App extends Component {
   state = {
     articles:[],
     selectedCountry: '',
-    selectedCategory: ''
+    selectedCategory: '',
+    ip: ''
   }
 
   componentDidMount(){
@@ -49,7 +51,7 @@ class App extends Component {
     getCategoryArticles(opt.value)
       .then(articles => {
         console.log('articles', articles)
-        this.setState({selectedCategory: category, selectedCountry: '', articles})
+        this.setState({selectedCategory: category, selectedCountry: '', articles, ip: ''})
       });
   }
 
@@ -58,7 +60,21 @@ class App extends Component {
     getCountryArticles(opt.value)
       .then(articles => {
         console.log('articles', articles)
-        this.setState({selectedCountry: opt.value, selectedCategory: '', articles})
+        this.setState({selectedCountry: opt.value, selectedCategory: '', articles, ip: ''})
+      });
+  }
+
+  handleIPChange(event) {
+    this.setState({ip: event.target.value});
+  }
+
+  handleIPSubmit(event){
+    event.preventDefault();
+
+    getCountryArticlesByIP(this.state.ip)
+      .then(response => {
+        console.log('articles', response.articles)
+        this.setState({selectedCategory: '', selectedCountry: response.selectedCountry, articles: response.headlines})
       });
   }
 
@@ -70,6 +86,7 @@ class App extends Component {
         <Header></Header>
         <div className="row dropdown">
             <div className="col-md-2">
+                Search By Category
                 <Select
                   options={Categories}
                   value={selectedCategory || ''}
@@ -77,12 +94,24 @@ class App extends Component {
                 />  
             </div>
             <div className="col-md-2">
+              Search By Country
                 <Select
                   value={selectedCountry || ''}
                   options={Countries}
                   onChange={this.onSelectCountry.bind(this)}
                 />  
-            </div>  
+            </div>
+            <form className="col-md-2" onSubmit={this.handleIPSubmit.bind(this)}>
+              <label>
+                Search By IP
+                <input className="form-control" 
+                  type="text" 
+                  value={this.state.ip}
+                  onChange={this.handleIPChange.bind(this)}
+                />
+              </label>
+              <input type="submit" value="Submit" />
+            </form>
         </div>
 
         <center>
