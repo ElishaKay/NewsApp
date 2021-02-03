@@ -11,3 +11,10 @@ exports.displayNews = async (req, res, next) => {
 
     res.send(awesomeTemplateCSS()+awesomeTemplateHTML({headlines}));
 }
+
+exports.getNews = async (req, res) => {
+  console.log('api/articles called!')
+  const headlines = await news.headlines({n : 5});
+
+  res.json(headlines);
+}
