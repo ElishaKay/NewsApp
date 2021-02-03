@@ -6,14 +6,14 @@ export const Articles = ({articles}) => {
     if (articles.length === 0) return null
 
     const ArticleRow = (article,index) => {
-
         return(
-              <tr key = {index} className={index%2 === 0?'odd':'even'}>
-                  <td>{index + 1}</td>
-                  <td>{article.title}</td>
-                  <td>{article.contentSnippet}</td>
-                  <td>{article.link}</td>
-              </tr>
+              <li key = {index}>
+                 <h1>{article.title}</h1>
+                  <p>
+                    {article.contentSnippet}
+                  </p>
+                  <a href={article.link}>Read</a>
+              </li>
           )
     }
 
@@ -22,19 +22,12 @@ export const Articles = ({articles}) => {
     return(
         <div className="container">
             <h2>Articles</h2>
-            <table className="table table-bordered">
-                <thead>
-                <tr>
-                    <th>Article Id</th>
-                    <th>Title</th>
-                    <th>Snippet</th>
-                    <th>Link</th>
-                </tr>
-                </thead>
-                <tbody>
-                    {articleTable}
-                </tbody>
-            </table>
+
+            <section className="the-images" id="the-images">
+              <ul>
+                {articleTable}
+              </ul>
+            </section>
         </div>
     )
 }
