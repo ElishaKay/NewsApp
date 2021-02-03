@@ -5,7 +5,8 @@ import { Header } from './components/Header'
 
 import { getAllArticles,
           getCategoryArticles,
-            getCountryArticles
+          getCountryArticles,
+          getCountryArticlesByIP
        } from './services/ArticleService'
 
 import { Articles } from './components/Articles'
@@ -31,7 +32,10 @@ const Countries = [
 class App extends Component {
 
   state = {
-    articles:[]
+    articles:[],
+    selectedCountry: '',
+    selectedCategory: '',
+    ip: ''
   }
 
   componentDidMount(){
@@ -43,11 +47,11 @@ class App extends Component {
   }
 
   onSelectCategory(opt){
-    console.log(opt)
+    let category = opt.value;
     getCategoryArticles(opt.value)
       .then(articles => {
         console.log('articles', articles)
-        this.setState({articles})
+        this.setState({selectedCategory: category, selectedCountry: '', articles, ip: ''})
       });
   }
 
@@ -56,29 +60,63 @@ class App extends Component {
     getCountryArticles(opt.value)
       .then(articles => {
         console.log('articles', articles)
-        this.setState({articles})
+        this.setState({selectedCountry: opt.value, selectedCategory: '', articles, ip: ''})
+      });
+  }
+
+  handleIPChange(event) {
+    this.setState({ip: event.target.value});
+  }
+
+  handleIPSubmit(event){
+    event.preventDefault();
+
+    getCountryArticlesByIP(this.state.ip)
+      .then(response => {
+        console.log('articles', response.articles)
+        this.setState({selectedCategory: '', selectedCountry: response.selectedCountry, articles: response.headlines})
       });
   }
 
   render() {
-    
+    let {selectedCategory, selectedCountry} = this.state;
+
     return (
       <div className="App">
         <Header></Header>
         <div className="row dropdown">
             <div className="col-md-2">
+                Search By Category
                 <Select
                   options={Categories}
+                  value={selectedCategory || ''}
                   onChange={this.onSelectCategory.bind(this)}
                 />  
             </div>
             <div className="col-md-2">
+              Search By Country
                 <Select
+                  value={selectedCountry || ''}
                   options={Countries}
                   onChange={this.onSelectCountry.bind(this)}
                 />  
-            </div>  
+            </div>
+            <form className="col-md-2" onSubmit={this.handleIPSubmit.bind(this)}>
+              <label>
+                Search By IP
+                <input className="form-control" 
+                  type="text" 
+                  value={this.state.ip}
+                  onChange={this.handleIPChange.bind(this)}
+                />
+              </label>
+              <input type="submit" value="Submit" />
+            </form>
         </div>
+
+        <center>
+          <h1 className="currently-viewing">{selectedCategory || selectedCountry}</h1>
+        </center>
 
         <div className="row mrgnbtm">
           <Articles articles={this.state.articles}></Articles>

@@ -2,6 +2,11 @@
   justify-content: center;
 }
 
+.currently-viewing {
+  margin-top: 20px;
+  justify-content: center;
+}
+
 .header {
   width: 100%;
   padding: 2%;
